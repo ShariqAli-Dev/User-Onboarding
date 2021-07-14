@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import Form from "./components/Form";
 import Users from "./components/Users";
-import axios from "axios";
-import { initial } from "lodash";
+import Axios from "axios";
+import * as yup from "yup";
+import schema from "./validation/formSchema";
 
 const initialFormValues = {
   //name email password checkbox (terms of service) submit button
@@ -11,6 +12,12 @@ const initialFormValues = {
   email: "",
   password: "",
   agreeToTerms: false,
+};
+
+const initialFormErrors = {
+  name: "",
+  email: "",
+  password: "",
 };
 
 const initialUsers = [
@@ -28,26 +35,39 @@ const initialUsers = [
   },
 ];
 
+const initialDisabled = true;
+
 function App() {
   // initializing users and form values
   const [users, setUsers] = useState(initialUsers);
   const [formValues, setFormValues] = useState(initialFormValues);
-  console.log(users);
+  const [formErrors, setFormErrors] = useState(initialFormErrors);
+  const [disabled, setDisabled] = useState(initialDisabled);
+
   // axios.get call when the page loads
   useEffect(() => {
-    axios
-      .get("https://reqres.in/api/users/")
+    Axios.get("https://reqres.in/api/users/")
       .then((res) => {
-        // res.data.data.forEach((user) => {
-        //   setUsers([...users, user]);
-        // });
         setUsers(users.concat(res.data.data));
       })
       .catch((err) => {
-        console.log(err);
         debugger;
       });
   }, []);
+
+  const inputChange = (name, value) => {
+    validate(name, value);
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
+
+  useEffect(() => {
+    schema.isValid(formValues).then((valid) => {
+      setDisabled(!valid);
+    });
+  }, [formValues]);
 
   const formSubmit = () => {
     const newUser = {
@@ -61,18 +81,34 @@ function App() {
 
   // when user is posted, do the post and reset state of form
   const postNewUser = (newUser) => {
-    axios
-      .post("https://reqres.in/api/users/", newUser)
+    Axios.post("https://reqres.in/api/users/", newUser)
       .then((res) => {
-        console.log(res.data);
-        setUsers([...users, res.data.data]);
+        // !res.data.data ? setUsers([...users, res.data]) : setUsers([...users, res.data.data]);
+        !res.data.data ? setUsers(users.concat(res.data)) : setUsers(users.concat(res.data.data));
       })
       .catch((err) => {
-        console.log(err);
         debugger;
       })
       .finally(() => {
         setFormValues(initialFormValues);
+      });
+  };
+
+  const validate = (name, value) => {
+    yup
+      .reach(schema, name)
+      .validate(value)
+      .then((valud) => {
+        setFormErrors({
+          ...formErrors,
+          [name]: "",
+        });
+      })
+      .catch((err) => {
+        setFormErrors({
+          ...formErrors,
+          [name]: err.errors[0],
+        });
       });
   };
 
@@ -83,7 +119,7 @@ function App() {
       <header>
         <h1>Users App</h1>
       </header>
-      <Form values={formValues} submit={formSubmit} />
+      <Form values={formValues} change={inputChange} submit={formSubmit} disabled={disabled} errors={formErrors} />
       {/* input change is missing from above, disabled is also missing, along with yup components */}
       <Users users={users} />
     </div>

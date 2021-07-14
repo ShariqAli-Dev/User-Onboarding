@@ -22,7 +22,7 @@ export default function Form(props) {
         {/* user text inputs */}
         <label>
           Name:
-          <input value={values.name} onChange={onChange} name="username" type="text" />
+          <input value={values.name} onChange={onChange} name="name" type="text" />
           {/* name, email, password, agreeToTerms */}
         </label>
 
