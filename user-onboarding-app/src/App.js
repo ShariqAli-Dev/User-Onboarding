@@ -20,20 +20,7 @@ const initialFormErrors = {
   password: "",
 };
 
-const initialUsers = [
-  {
-    name: "shariq",
-    email: "shariqali2195@gmail.com",
-    password: "abc123",
-    agreeToTerms: true,
-  },
-  {
-    name: "chris",
-    email: "chris@email.com",
-    password: "123 abc",
-    agreeToTerms: false,
-  },
-];
+const initialUsers = [];
 
 const initialDisabled = true;
 

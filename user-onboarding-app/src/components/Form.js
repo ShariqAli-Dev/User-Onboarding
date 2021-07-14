@@ -22,13 +22,18 @@ export default function Form(props) {
         {/* user text inputs */}
         <label>
           Name:
-          <input value={values.name} onChange={onChange} name="username" type="text" />
+          <input value={values.name} onChange={onChange} name="name" type="text" />
           {/* name, email, password, agreeToTerms */}
         </label>
 
         <label>
           Email:
-          <input value={values.email} onChange={onChange} name="email" type="text" />
+          <input value={values.email} onChange={onChange} name="email" type="email" />
+        </label>
+
+        <label>
+          Password:
+          <input value={values.password} onChange={onChange} name="password" type="password" />
         </label>
         {/* checkbox */}
         <label>
