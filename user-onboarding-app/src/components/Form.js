@@ -1,4 +1,29 @@
-import React from "react";
+import styled from "styled-components";
+
+const StyledForm = styled.form`
+  box-sizing: border-box;
+
+  p {
+    margin-left: auto;
+    margin-right: 40%;
+  }
+
+  button {
+    margin-right: auto;
+    margin-left: 40%;
+  }
+
+  .form-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+
+  .button-group {
+    display: flex;
+    justify-content: center;
+  }
+`;
 
 export default function Form(props) {
   const { values, submit, change, disabled, errors } = props;
@@ -14,11 +39,9 @@ export default function Form(props) {
   };
 
   return (
-    <form className="form container" onSubmit={onSubmit}>
+    <StyledForm onSubmit={onSubmit}>
       {/* getting user information */}
       <div className="form-group inputs">
-        <h4>User Information</h4>
-
         {/* user text inputs */}
         <label>
           Name:
@@ -43,10 +66,12 @@ export default function Form(props) {
       </div>
 
       <div className="form-group submit">
-        <h2>Add User</h2>
-
         {/* Disabling Button */}
-        <button disabled={disabled}>Submit</button>
+        <div class="button-group">
+          <p>Add User:</p>
+          <button disabled={disabled}>Submit</button>
+        </div>
+
         <div className="errors">
           <div>{errors.name}</div>
           <div>{errors.email}</div>
@@ -54,6 +79,6 @@ export default function Form(props) {
           <div>{errors.agreeToTerms}</div>
         </div>
       </div>
-    </form>
+    </StyledForm>
   );
 }

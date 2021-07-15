@@ -5,6 +5,7 @@ import Users from "./components/Users";
 import Axios from "axios";
 import * as yup from "yup";
 import schema from "./validation/formSchema";
+import styled from "styled-components";
 
 const initialFormValues = {
   //name email password checkbox (terms of service) submit button
@@ -23,6 +24,14 @@ const initialFormErrors = {
 const initialUsers = [];
 
 const initialDisabled = true;
+
+const StyledApp = styled.div`
+  margin: 5%;
+
+  header {
+    text-align: center;
+  }
+`;
 
 function App() {
   const [users, setUsers] = useState(initialUsers);
@@ -98,14 +107,14 @@ function App() {
   return (
     // return the form
     // return the users
-    <div className="container">
+    <StyledApp>
       <header>
         <h1>Users App</h1>
       </header>
       <Form values={formValues} change={inputChange} submit={formSubmit} disabled={disabled} errors={formErrors} />
       {/* input change is missing from above, disabled is also missing, along with yup components */}
       <Users users={users} />
-    </div>
+    </StyledApp>
   );
 }
 

@@ -9,7 +9,7 @@ export default function Users({ users }) {
           <div key={user.name}>
             {!user.name ? <h1>{user.first_name}</h1> : <h2>{user.name}</h2>}
             <p>Email: {user.email}</p>
-            <h3>{user.agreeToTerms}</h3>
+            <p>User {user.agreeToTerms ? "Did" : "Didn't"} Agree To Terms</p>
           </div>
         );
       })}
