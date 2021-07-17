@@ -69,7 +69,9 @@ export default function Form(props) {
         {/* Disabling Button */}
         <div class="button-group">
           <p>Add User:</p>
-          <button disabled={disabled}>Submit</button>
+          <button id="submit-button" disabled={disabled}>
+            Submit
+          </button>
         </div>
 
         <div className="errors">
